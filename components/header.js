@@ -1,24 +1,26 @@
-import Link from "next/link"
-import { signIn, signOut, useSession } from "next-auth/react"
-import styles from "./header.module.css"
+import Link from "next/link";
+import { signIn, signOut, useSession } from "next-auth/react";
+import {
+  faBookOpen,
+  faReceipt,
+  faMagic,
+  faUserCircle,
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 // The approach used in this component shows how to build a sign in and sign out
 // component that works on pages which support both client and server side
 // rendering, and avoids any flash incorrect content on initial page load.
 export default function Header() {
-  const { data: session, status } = useSession()
-  const loading = status === "loading"
+  const { data: session, status } = useSession();
+  const loading = status === "loading";
 
   return (
     <header>
-      <noscript>
-        <style>{`.nojs-show { opacity: 1; top: 0; }`}</style>
-      </noscript>
-      <div className={styles.signedInStatus}>
+      {/* <div className={styles.signedInStatus}>
         <p
-          className={`nojs-show ${
-            !session && loading ? styles.loading : styles.loaded
-          }`}
+          className={`nojs-show ${!session && loading ? styles.loading : styles.loaded
+            }`}
         >
           {!session && (
             <>
@@ -63,41 +65,72 @@ export default function Header() {
             </>
           )}
         </p>
-      </div>
+      </div> */}
       <nav>
-        <ul className={styles.navItems}>
-          <li className={styles.navItem}>
-            <Link href="/">
-              <a>Home</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/client">
-              <a>Client</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/server">
-              <a>Server</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/protected">
-              <a>Protected</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/api-example">
-              <a>API</a>
-            </Link>
-          </li>
-          <li className={styles.navItem}>
-            <Link href="/middleware-protected">
-              <a>Middleware protected</a>
-            </Link>
-          </li>
-        </ul>
+        <nav class="mb-8 bg-purple-300">
+          <div class="container mx-auto py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-white">No Plan. #JustShop</h1>
+            <div class="flex space-x-10">
+              <Link href="/recipes/add-recipe">
+                <div class="cursor-pointer group flex items-center space-x-2">
+                  <span>
+                    <FontAwesomeIcon
+                      icon={faMagic}
+                      className="fa-2x transition-all duration-300 group-hover:text-slate-600"
+                      inverse
+                    />
+                  </span>
+                  <span class="text-white transition-all duration-300 group-hover:text-slate-600">
+                    Generate
+                  </span>
+                </div>
+              </Link>
+              <Link href="/recipes/add-recipe">
+                <div class="cursor-pointer group flex items-center space-x-2">
+                  <span>
+                    <FontAwesomeIcon
+                      icon={faReceipt}
+                      className="fa-2x transition-all duration-300 group-hover:text-slate-600"
+                      inverse
+                    />
+                  </span>
+                  <span class="text-white transition-all duration-300 group-hover:text-slate-600">
+                    Add New Recipie
+                  </span>
+                </div>
+              </Link>
+              <Link href="/recipes/add-recipe">
+                <div class="cursor-pointer group flex items-center space-x-2">
+                  <span>
+                    <FontAwesomeIcon
+                      icon={faBookOpen}
+                      className="fa-2x transition-all duration-300 group-hover:text-slate-600"
+                      inverse
+                    />
+                  </span>
+                  <span class="text-white transition-all duration-300 group-hover:text-slate-600">
+                    Browse Recipies
+                  </span>
+                </div>
+              </Link>
+            </div>
+            {session ?
+              <span style={{ backgroundImage: `url(${session.user.image})` }} className={styles.avatar} />
+              :
+              <div
+                class="group lg:flex hidden items-center space-x-2 py-1 px-2 rounded-full hover:text-slate-600"
+                role="button"
+                onClick={(e) => {
+                  e.preventDefault()
+                  signIn()
+                }}>
+                <FontAwesomeIcon icon={faUserCircle} className="fa-2x group-hover:text-slate-600" inverse />
+              </div>
+            }
+
+          </div>
+        </nav>
       </nav>
-    </header>
-  )
+    </header >
+  );
 }

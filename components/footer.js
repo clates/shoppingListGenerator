@@ -1,20 +1,34 @@
-import Link from "next/link"
-import styles from "./footer.module.css"
-import packageJSON from "../package.json"
+import Link from "next/link";
+import styles from "./footer.module.css";
+import packageJSON from "../package.json";
+import {
+  faGithub,
+  faReact
+} from "@fortawesome/free-brands-svg-icons";
+import {
+  faEnvelope
+} from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
   return (
     <footer className={styles.footer}>
       <hr />
-      <ul className={styles.navItems}>
+      <ul className={"ml-3"}>
         <li className={styles.navItem}>
-          <a href="https://next-auth.js.org">Documentation</a>
+          <a href="https://next-auth.js.org">
+            <FontAwesomeIcon icon={faReact} />
+          </a>
         </li>
         <li className={styles.navItem}>
-          <a href="https://www.npmjs.com/package/next-auth">NPM</a>
+          <a href="https://www.npmjs.com/package/next-auth">
+            <FontAwesomeIcon icon={faGithub} />
+          </a>
         </li>
         <li className={styles.navItem}>
-          <a href="https://github.com/nextauthjs/next-auth-example">GitHub</a>
+          <a href="https://github.com/nextauthjs/next-auth-example">
+            <FontAwesomeIcon icon={faEnvelope} />
+          </a>
         </li>
         <li className={styles.navItem}>
           <Link href="/policy">
@@ -22,9 +36,9 @@ export default function Footer() {
           </Link>
         </li>
         <li className={styles.navItem}>
-          <em>next-auth@{packageJSON.dependencies["next-auth"]}</em>
+          <em>noplanjustshop@{packageJSON.version}</em>
         </li>
       </ul>
     </footer>
-  )
+  );
 }

@@ -1,14 +1,11 @@
-import Header from '../components/header'
-import Footer from '../components/footer'
-
-export default function Layout ({children}) {
+import Header from "../components/header";
+import Footer from "../components/footer";
+export default function Layout({ children }) {
   return (
-    <>
-      <Header/>
-      <main>
-        {children}
-      </main>
-      <Footer/>
-    </>
-  )
+    <div className="flex flex-col w-screen min-h-screen justify-center content-center">
+      <Header />
+      <main className="grow">{children}</main>
+      <Footer />
+    </div>
+  );
 }
