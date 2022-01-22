@@ -67,12 +67,12 @@ export default function Header() {
         </p>
       </div> */}
       <nav>
-        <nav class="mb-8 bg-purple-300">
-          <div class="container mx-auto py-4 flex justify-between items-center">
-            <h1 class="text-2xl font-bold text-white">No Plan. #JustShop</h1>
-            <div class="flex space-x-10">
+        <nav className="mb-8 bg-purple-300">
+          <div className="container mx-auto py-4 flex justify-between items-center">
+            <h1 className="text-2xl font-bold text-white">No Plan. #JustShop</h1>
+            <div className="flex space-x-10">
               <Link href="/recipes/add-recipe">
-                <div class="cursor-pointer group flex items-center space-x-2">
+                <div className="cursor-pointer group flex items-center space-x-2">
                   <span>
                     <FontAwesomeIcon
                       icon={faMagic}
@@ -80,13 +80,13 @@ export default function Header() {
                       inverse
                     />
                   </span>
-                  <span class="text-white transition-all duration-300 group-hover:text-slate-600">
+                  <span className="text-white transition-all duration-300 group-hover:text-slate-600">
                     Generate
                   </span>
                 </div>
               </Link>
               <Link href="/recipes/add-recipe">
-                <div class="cursor-pointer group flex items-center space-x-2">
+                <div className="cursor-pointer group flex items-center space-x-2">
                   <span>
                     <FontAwesomeIcon
                       icon={faReceipt}
@@ -94,13 +94,13 @@ export default function Header() {
                       inverse
                     />
                   </span>
-                  <span class="text-white transition-all duration-300 group-hover:text-slate-600">
+                  <span className="text-white transition-all duration-300 group-hover:text-slate-600">
                     Add New Recipie
                   </span>
                 </div>
               </Link>
               <Link href="/recipes/add-recipe">
-                <div class="cursor-pointer group flex items-center space-x-2">
+                <div className="cursor-pointer group flex items-center space-x-2">
                   <span>
                     <FontAwesomeIcon
                       icon={faBookOpen}
@@ -108,7 +108,7 @@ export default function Header() {
                       inverse
                     />
                   </span>
-                  <span class="text-white transition-all duration-300 group-hover:text-slate-600">
+                  <span className="text-white transition-all duration-300 group-hover:text-slate-600">
                     Browse Recipies
                   </span>
                 </div>
@@ -118,7 +118,7 @@ export default function Header() {
               <span style={{ backgroundImage: `url(${session.user.image})` }} className={styles.avatar} />
               :
               <div
-                class="group lg:flex hidden items-center space-x-2 py-1 px-2 rounded-full hover:text-slate-600"
+                className="group lg:flex hidden items-center space-x-2 py-1 px-2 rounded-full hover:text-slate-600"
                 role="button"
                 onClick={(e) => {
                   e.preventDefault()

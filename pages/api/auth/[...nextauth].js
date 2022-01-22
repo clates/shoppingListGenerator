@@ -3,6 +3,7 @@ import NextAuth from "next-auth"
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
+import EmailProvider from "next-auth/providers/email";
 import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter"
 
 AWS.config.update({
@@ -17,10 +18,20 @@ export default NextAuth({
   adapter: DynamoDBAdapter(new AWS.DynamoDB.DocumentClient()),
   // Configure one or more authentication providers  
   providers: [
-    // Providers.Email({
-    //   server: process.env.EMAIL_SERVER,
-    //   from: process.env.EMAIL_FROM,
-    // }),
+    EmailProvider({
+      // service: 'Zoho', // no need to set host or port etc.
+      // auth: {
+      //   user: process.env.EMAIL_NOREPLY,
+      //   pass: process.env.EMAIL_PASS
+      // }
+
+      host: 'smtp.ethereal.email',
+      port: 587,
+      auth: {
+        user: 'douglas.hermann61@ethereal.email',
+        pass: '5vhhfpyn9MVAeK5GBb'
+      }
+    }),
     GitHubProvider({
       clientId: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET
@@ -40,7 +51,21 @@ export default NextAuth({
       return { user: user, id: id }
     }
   },
-  debug: true
+  // session: {
+  //   jwt: true,
+  //   maxAge: 30 * 24 * 60 * 60, // 30 days
+  // },
+  // jwt: {
+  //   secret: process.env.SECRET,
+  //   encryption: true,
+  // },
+  debug: true,
+  secret: process.env.SECRET,
+  theme: {
+    colorScheme: "light", // "auto" | "dark" | "light"
+    brandColor: "d8b4fe", // Hex color code
+    logo: "" // Absolute URL to image
+  }
 })
 
 //   adapter: DynamoDBAdapter(new AWS.DynamoDB.DocumentClient()),
