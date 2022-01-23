@@ -17,7 +17,7 @@ export default function Recipe() {
   );
 
   if (error) return <div>Failed to load recipe</div>;
-  if (!user || !recipe) return <div>Loading...</div>;
+  if (!user || !recipe) return <LoadingSpinner text="Fetching recipe" />;
 
   const { recipe: recipeInformation, likes, createdOn, notes, name, rid } = recipe
   const { image: userImage, name: userName } = user

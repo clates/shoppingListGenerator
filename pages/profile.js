@@ -21,7 +21,7 @@ export default function Profile() {
   );
 
   if (error) return <div>Failed to load user profile</div>;
-  if (!data || status === "loading") return <div>Loading...</div>;
+  if (!data || status === "loading") return <LoadingSpinner text="Fetching profile" />;
 
   return <NotImpl msg="Typical profile page. User's image, user's name, # of hearts? Hearted recipes list, submitted recipes list, recipes are all links to their page">
     <div>

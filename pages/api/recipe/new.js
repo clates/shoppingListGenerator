@@ -25,14 +25,6 @@ export default async function newRecipe(req, res) {
     res.status(401)
   }
 
-  const s3 = new AWS.S3({
-    params: {
-      Bucket: "lates-recipies",
-      MaxKeys: 60,
-      Prefix: session.id
-    }
-  });
-
   switch (method) {
     case 'POST':
       //Recipe format
@@ -64,12 +56,13 @@ export default async function newRecipe(req, res) {
         if (err) {
           // On Error
           console.log("dynamo error:", err)
+          res.status(500).json(recipedocument)
         } else {
           // On Success
           console.log("dynamo success:", rId)
+          res.status(200).json({ rid: rId })
         }
       })
-      res.status(200).end({ rid: rId })
       break
     default:
       res.setHeader('Allow', ['POST'])

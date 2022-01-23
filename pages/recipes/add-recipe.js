@@ -15,6 +15,7 @@ import InputStyled from "../../components/input/InputStyled";
 import IconButton from "../../components/buttons/IconButton";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 export default function AddRecipe() {
   const router = useRouter();
@@ -59,9 +60,11 @@ export default function AddRecipe() {
   ]);
   const { data: session, status } = useSession()
   const [showHelper, setShowHelper] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
-  if (status === "loading") return "Loading..."
+  if (status === "loading") return <LoadingSpinner text="Loading" />
   if (status !== "authenticated") return "Please log in in the upper right in order to add a new recipe"
+  if (isLoading) return <LoadingSpinner text="Submitting" />
 
   return (
     <div>
@@ -232,6 +235,7 @@ export default function AddRecipe() {
         <div className="ml-8 flex flex-col w-1/2 max-w-lg">
           <div className="flex flex-row justify-end">
             <IconButton icon={faSave} label="Save" onClick={() => {
+              setIsLoading(true);
               fetch('/api/recipe/new', {
                 method: 'POST',
                 headers: {
@@ -242,7 +246,9 @@ export default function AddRecipe() {
                   recipe: recipe,
                   notes: notes
                 }),
-              }).then(resp => resp.json).then(json => router.push(`/recipes/${json.rid}`))
+              })
+                .then(resp => resp.json())
+                .then(json => router.push(`/recipes/${json.rid}`))
             }} />
             <IconButton
               className="ml-4"
