@@ -10,7 +10,7 @@ AWS.config.update({
 // Create the DynamoDB service object
 const docClient = new AWS.DynamoDB.DocumentClient();
 
-export default async function recipeHandler(req, res) {
+export default async function userHandler(req, res) {
   const {
     query: { id, name },
     method,
@@ -19,10 +19,10 @@ export default async function recipeHandler(req, res) {
   switch (method) {
     case 'GET':
       const params = {
-        TableName: 'recipe',
-        KeyConditionExpression: "rid = :mypk",
+        TableName: 'next-auth',
+        KeyConditionExpression: "pk = :mypk",
         ExpressionAttributeValues: {
-          ":mypk": `${id}`
+          ":mypk": `USER#${id}`
         }
       }
 
@@ -31,7 +31,7 @@ export default async function recipeHandler(req, res) {
         if (err) {
           res.status(500).json({ err: err })
         } else {
-          res.status(200).json(data.Items[0]);
+          res.status(200).json(data.Items.filter(x => x.type === "USER").map(x => ({ image: x.image, name: x.name }))[0]);
         }
       })
       break

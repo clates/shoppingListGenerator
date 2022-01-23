@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
+import styles from "./header.module.css"
 import {
   faBookOpen,
   faReceipt,
@@ -16,7 +17,7 @@ export default function Header() {
   const loading = status === "loading";
 
   return (
-    <header>
+    <header className="w-full">
       {/* <div className={styles.signedInStatus}>
         <p
           className={`nojs-show ${!session && loading ? styles.loading : styles.loaded

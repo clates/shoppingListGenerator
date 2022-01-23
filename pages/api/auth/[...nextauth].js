@@ -1,22 +1,35 @@
-import AWS from "aws-sdk";
 import NextAuth from "next-auth"
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter"
+import { DynamoDB } from "@aws-sdk/client-dynamodb"
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb"
 
-AWS.config.update({
-  accessKeyId: process.env.NEXT_AUTH_AWS_ACCESS_KEY,
-  secretAccessKey: process.env.NEXT_AUTH_AWS_SECRET_KEY,
+
+const config = {
+  credentials: {
+    accessKeyId: process.env.NEXT_AUTH_AWS_ACCESS_KEY,
+    secretAccessKey: process.env.NEXT_AUTH_AWS_SECRET_KEY,
+  },
   region: process.env.NEXT_AUTH_AWS_REGION,
-});
+};
+
+const client = DynamoDBDocument.from(new DynamoDB(config), {
+  marshallOptions: {
+    convertEmptyValues: true,
+    removeUndefinedValues: true,
+    convertClassInstanceToMap: true,
+  },
+})
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
-  adapter: DynamoDBAdapter(new AWS.DynamoDB.DocumentClient()),
-  // Configure one or more authentication providers  
+  adapter: DynamoDBAdapter(
+    client
+  ),  // Configure one or more authentication providers  
   providers: [
     EmailProvider({
       // service: 'Zoho', // no need to set host or port etc.
@@ -47,18 +60,10 @@ export default NextAuth({
     // ...add more providers here  
   ],
   callbacks: {
-    async session({ user }, { id }) {
-      return { user: user, id: id }
+    async session({ user }) {
+      return { user: user }
     }
   },
-  // session: {
-  //   jwt: true,
-  //   maxAge: 30 * 24 * 60 * 60, // 30 days
-  // },
-  // jwt: {
-  //   secret: process.env.SECRET,
-  //   encryption: true,
-  // },
   debug: true,
   secret: process.env.SECRET,
   theme: {

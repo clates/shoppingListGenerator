@@ -12,21 +12,21 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
   return (
-    <footer className={styles.footer}>
+    <footer className={"mt-5 w-full"}>
       <hr />
       <ul className={"ml-3"}>
         <li className={styles.navItem}>
-          <a href="https://next-auth.js.org">
+          <a href="https://nextjs.org/">
             <FontAwesomeIcon icon={faReact} />
           </a>
         </li>
         <li className={styles.navItem}>
-          <a href="https://www.npmjs.com/package/next-auth">
+          <a href="https://github.com/clates/shoppingListGenerator">
             <FontAwesomeIcon icon={faGithub} />
           </a>
         </li>
         <li className={styles.navItem}>
-          <a href="https://github.com/nextauthjs/next-auth-example">
+          <a href="mailto:chris@noplanjustshop.com">
             <FontAwesomeIcon icon={faEnvelope} />
           </a>
         </li>

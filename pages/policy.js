@@ -1,5 +1,3 @@
-import Layout from "../components/layout";
-
 export default function Page() {
   return <div>
     <h1> I didn't read this at all. I hate ads, I hate selling personal data. I won't do it. </h1>

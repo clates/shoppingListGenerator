@@ -1,5 +1,6 @@
 import { SessionProvider } from "next-auth/react";
 import Layout from "../components/layout";
+import { LikesProvider } from "../context/LikesContext";
 import "./styles.css";
 
 // Use of the <SessionProvider> is now mandatory to allow components that call
@@ -26,9 +27,11 @@ export default function App({ Component, pageProps }) {
       }}
       session={pageProps.session}
     >
-      <Layout>
-        <Component {...pageProps} />
-      </Layout>
+      <LikesProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </LikesProvider>
     </SessionProvider>
   );
 }

@@ -1,5 +1,6 @@
 import AWS from 'aws-sdk';
 import { getSession } from "next-auth/react"
+import { v4 as uuidv4 } from 'uuid';
 
 AWS.config.update({
   accessKeyId: process.env.NEXT_AUTH_AWS_ACCESS_KEY,
@@ -8,7 +9,7 @@ AWS.config.update({
 });
 
 // Create the DynamoDB service object
-const ddb = new AWS.DynamoDB({ apiVersion: '2012-08-10' });
+const docClient = new AWS.DynamoDB.DocumentClient();
 
 export default async function newRecipe(req, res) {
   const {
@@ -19,65 +20,59 @@ export default async function newRecipe(req, res) {
   const session = await getSession({ req })
 
   if (session) {
-    // Signed in
-    console.log("Session", JSON.stringify(session, null, 2))
   } else {
     // Not Signed in
-    // res.status(401)
+    res.status(401)
   }
 
   const s3 = new AWS.S3({
     params: {
       Bucket: "lates-recipies",
       MaxKeys: 60,
-      // Prefix: session.id
+      Prefix: session.id
     }
   });
 
   switch (method) {
     case 'POST':
-      // Update or create data in your database
-      console.log("Attempting to write to 'zon DB")
-      console.log(req.body);
-      // const body = JSON.parse(req.body)
-      // console.log(body);
+      //Recipe format
 
-
-      s3.putObject({
-        Key: `user's ${req.name}`,
-        Body: JSON.stringify(req.body),
-        'ContentType': 'application/json',
-        // ACL: 'public-read'
-      }, (err, data) => {
+      /**
+       
+      {
+        rid: uuid,
+        name: string,
+        recipe:
+        notes:
+        createdby:
+        createdon:
+        likes:
+      }
+       
+       */
+      const rId = uuidv4()
+      const recipedocument = {
+        rid: rId,
+        createdBy: session.user.id,
+        createdOn: Date.now(),
+        likes: 0,
+        name: req.body.name,
+        notes: req.body.notes,
+        recipe: JSON.stringify(req.body.recipe),
+      }
+      docClient.put({ Item: recipedocument, TableName: "recipe" }, (err, data) => {
         if (err) {
           // On Error
-          console.log("s3 error:", err)
+          console.log("dynamo error:", err)
         } else {
           // On Success
-          console.log("s3 success:", data)
+          console.log("dynamo success:", rId)
         }
       })
-
-      //     fetch('/api/videos/upload', {
-      //       method: 'POST',
-      //       headers: {
-      //         "Content-Type": "application/json"
-      //       },
-      //       body: JSON.stringify({ userId: userId, videoUrl: `https://latesvideouploads.s3.us-east-2.amazonaws.com/${userId}/${videoType}`, videoType: videoType })
-      //     })
-      //       .then(res => res.json())
-      //       .then(data => {
-      //         console.log("Response from server:", data)
-      //       }).catch(err => {
-      //         console.log("Error from server:", err)
-      //       })
-      //   }
-      // }
-      // )
-      res.status(200).end(`Added`)
+      res.status(200).end(rId)
       break
     default:
-      res.setHeader('Allow', ['GET', 'PUT'])
+      res.setHeader('Allow', ['POST'])
       res.status(405).end(`Method ${method} Not Allowed`)
   }
 }
