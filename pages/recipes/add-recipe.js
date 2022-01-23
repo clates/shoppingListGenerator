@@ -58,33 +58,36 @@ export default function AddRecipe() {
       ],
     },
   ]);
-  const { data: session, status } = useSession()
+  const { data: session, status } = useSession();
   const [showHelper, setShowHelper] = useState(true);
   const [isLoading, setIsLoading] = useState(false);
 
-  if (status === "loading") return <LoadingSpinner text="Loading" />
-  if (status !== "authenticated") return "Please log in in the upper right in order to add a new recipe"
-  if (isLoading) return <LoadingSpinner text="Submitting" />
+  if (status === "loading") return <LoadingSpinner text="Loading" />;
+  if (status !== "authenticated")
+    return "Please log in in the upper right in order to add a new recipe";
+  if (isLoading) return <LoadingSpinner text="Submitting" />;
 
   return (
     <div>
       {showHelper && (
         <div className="bg-purple-100 rounded p-3 mb-7 border-2 border-purple-300 text-slate-500 hover:text-black">
-          Help others with their meal prep by adding one of your favorite recipies! You and other will be able to view and <FontAwesomeIcon
-            icon={faStar}
-            className="fa-md text-rose-300"
-          /> the recipe in the <FontAwesomeIcon
-            icon={faBookOpen}
-            className="fa-md text-rose-300 "
-          /> Master Cookbook to have it included in your regular meal prep rotation. A good recipe for #NPJS uses easy-to-find ingredients and has simple and easy-to-follow instructions.
+          Help others with their meal prep by adding one of your favorite
+          recipies! You and other will be able to view and{" "}
+          <FontAwesomeIcon icon={faStar} className="fa-md text-rose-300" /> the
+          recipe in the{" "}
+          <FontAwesomeIcon icon={faBookOpen} className="fa-md text-rose-300 " />{" "}
+          Master Cookbook to have it included in your regular meal prep
+          rotation. A good recipe for #NPJS uses easy-to-find ingredients and
+          has simple and easy-to-follow instructions.
           <br />
-          Get started by clicking the <FontAwesomeIcon
+          Get started by clicking the{" "}
+          <FontAwesomeIcon
             icon={faEraser}
             className="fa-md text-amber-500"
-          /> below to clear the fields. Use the <FontAwesomeIcon
-            icon={faPlus}
-            className="fa-md text-rose-300"
-          /> buttons to add new sections or ingredients.
+          />{" "}
+          below to clear the fields. Use the{" "}
+          <FontAwesomeIcon icon={faPlus} className="fa-md text-rose-300" />{" "}
+          buttons to add new sections or ingredients.
         </div>
       )}
       <div className="flex flex-row w-full justify-center">
@@ -101,7 +104,9 @@ export default function AddRecipe() {
                     setRecipe(
                       recipe.map((section, _idx) => ({
                         sectionName:
-                          sectionIndex === _idx ? newValue : section.sectionName,
+                          sectionIndex === _idx
+                            ? newValue
+                            : section.sectionName,
                         ingredients: section.ingredients,
                       }))
                     );
@@ -125,24 +130,29 @@ export default function AddRecipe() {
                       <InputStyled
                         placeholder={qty}
                         value={qty}
-                        onBlur={() => { }}
-                        onChange={e => {
-                          setRecipe(recipe.map((section, _idx) => {
-                            if (_idx === sectionIndex) {
-                              return {
-                                sectionName: section.sectionName,
-                                ingredients: section.ingredients
-                                  .map((sectionIngredients, _idx2) => {
-                                    if (_idx2 === ingredientIndex) {
-                                      return { qty: e.target.value, name: sectionIngredients.name };
-                                    }
-                                    return sectionIngredients;
-                                  })
-                                  .filter(Boolean),
-                              };
-                            }
-                            return section;
-                          }))
+                        onBlur={() => {}}
+                        onChange={(e) => {
+                          setRecipe(
+                            recipe.map((section, _idx) => {
+                              if (_idx === sectionIndex) {
+                                return {
+                                  sectionName: section.sectionName,
+                                  ingredients: section.ingredients
+                                    .map((sectionIngredients, _idx2) => {
+                                      if (_idx2 === ingredientIndex) {
+                                        return {
+                                          qty: e.target.value,
+                                          name: sectionIngredients.name,
+                                        };
+                                      }
+                                      return sectionIngredients;
+                                    })
+                                    .filter(Boolean),
+                                };
+                              }
+                              return section;
+                            })
+                          );
                         }}
                         className={"w-32 text-right"}
                       />
@@ -152,24 +162,29 @@ export default function AddRecipe() {
                         className=""
                         placeholder={name}
                         value={name}
-                        onBlur={() => { }}
-                        onChange={e => {
-                          setRecipe(recipe.map((section, _idx) => {
-                            if (_idx === sectionIndex) {
-                              return {
-                                sectionName: section.sectionName,
-                                ingredients: section.ingredients
-                                  .map((sectionIngredients, _idx2) => {
-                                    if (_idx2 === ingredientIndex) {
-                                      return { qty: sectionIngredients.qty, name: e.target.value };
-                                    }
-                                    return sectionIngredients;
-                                  })
-                                  .filter(Boolean),
-                              };
-                            }
-                            return section;
-                          }))
+                        onBlur={() => {}}
+                        onChange={(e) => {
+                          setRecipe(
+                            recipe.map((section, _idx) => {
+                              if (_idx === sectionIndex) {
+                                return {
+                                  sectionName: section.sectionName,
+                                  ingredients: section.ingredients
+                                    .map((sectionIngredients, _idx2) => {
+                                      if (_idx2 === ingredientIndex) {
+                                        return {
+                                          qty: sectionIngredients.qty,
+                                          name: e.target.value,
+                                        };
+                                      }
+                                      return sectionIngredients;
+                                    })
+                                    .filter(Boolean),
+                                };
+                              }
+                              return section;
+                            })
+                          );
                         }}
                       />
                     </div>
@@ -234,31 +249,35 @@ export default function AddRecipe() {
         </div>
         <div className="ml-8 flex flex-col w-1/2 max-w-lg">
           <div className="flex flex-row justify-end">
-            <IconButton icon={faSave} label="Save" onClick={() => {
-              setIsLoading(true);
-              fetch('/api/recipe/new', {
-                method: 'POST',
-                headers: {
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  name: recipeName,
-                  recipe: recipe,
-                  notes: notes
-                }),
-              })
-                .then(resp => resp.json())
-                .then(json => router.push(`/recipes/${json.rid}`))
-            }} />
+            <IconButton
+              icon={faSave}
+              label="Save"
+              onClick={() => {
+                setIsLoading(true);
+                fetch("/api/recipe/new", {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                  },
+                  body: JSON.stringify({
+                    name: recipeName,
+                    recipe: recipe,
+                    notes: notes,
+                  }),
+                })
+                  .then((resp) => resp.json())
+                  .then((json) => router.push(`/recipes/${json.rid}`));
+              }}
+            />
             <IconButton
               className="ml-4"
               icon={faEraser}
               color="amber"
               label="Clear All Fields"
               onClick={() => {
-                setRecipe([{ sectionName: "Main", ingredients: [] }])
-                setNotes("")
-                setRecipeName("Edit the Recipe name ->")
+                setRecipe([{ sectionName: "Main", ingredients: [] }]);
+                setNotes("");
+                setRecipeName("Edit the Recipe name ->");
               }}
             />
           </div>

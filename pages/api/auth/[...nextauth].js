@@ -1,12 +1,11 @@
-import NextAuth from "next-auth"
+import NextAuth from "next-auth";
 import FacebookProvider from "next-auth/providers/facebook";
 import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
-import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter"
-import { DynamoDB } from "@aws-sdk/client-dynamodb"
-import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb"
-
+import { DynamoDBAdapter } from "@next-auth/dynamodb-adapter";
+import { DynamoDB } from "@aws-sdk/client-dynamodb";
+import { DynamoDBDocument } from "@aws-sdk/lib-dynamodb";
 
 const config = {
   credentials: {
@@ -22,14 +21,12 @@ const client = DynamoDBDocument.from(new DynamoDB(config), {
     removeUndefinedValues: true,
     convertClassInstanceToMap: true,
   },
-})
+});
 
 // For more information on each option (and a full list of options) go to
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
-  adapter: DynamoDBAdapter(
-    client
-  ),  // Configure one or more authentication providers  
+  adapter: DynamoDBAdapter(client), // Configure one or more authentication providers
   providers: [
     // EmailProvider({
     //   // service: 'Zoho', // no need to set host or port etc.
@@ -47,31 +44,31 @@ export default NextAuth({
     // }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
-      clientSecret: process.env.GITHUB_SECRET
+      clientSecret: process.env.GITHUB_SECRET,
     }),
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
-      clientSecret: process.env.GOOGLE_SECRET
+      clientSecret: process.env.GOOGLE_SECRET,
     }),
     FacebookProvider({
       clientId: process.env.FACEBOOK_ID,
-      clientSecret: process.env.FACEBOOK_SECRET
-    })
-    // ...add more providers here  
+      clientSecret: process.env.FACEBOOK_SECRET,
+    }),
+    // ...add more providers here
   ],
   callbacks: {
     async session({ user }) {
-      return { user: user }
-    }
+      return { user: user };
+    },
   },
   debug: true,
   secret: process.env.SECRET,
   theme: {
     colorScheme: "light", // "auto" | "dark" | "light"
     brandColor: "d8b4fe", // Hex color code
-    logo: "" // Absolute URL to image
-  }
-})
+    logo: "", // Absolute URL to image
+  },
+});
 
 //   adapter: DynamoDBAdapter(new AWS.DynamoDB.DocumentClient()),
 //   // https://next-auth.js.org/configuration/providers

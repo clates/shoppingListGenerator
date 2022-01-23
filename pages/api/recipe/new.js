@@ -1,6 +1,6 @@
-import AWS from 'aws-sdk';
-import { getSession } from "next-auth/react"
-import { v4 as uuidv4 } from 'uuid';
+import AWS from "aws-sdk";
+import { getSession } from "next-auth/react";
+import { v4 as uuidv4 } from "uuid";
 
 AWS.config.update({
   accessKeyId: process.env.NEXT_AUTH_AWS_ACCESS_KEY,
@@ -15,18 +15,18 @@ export default async function newRecipe(req, res) {
   const {
     query: { id, name },
     method,
-  } = req
+  } = req;
 
-  const session = await getSession({ req })
+  const session = await getSession({ req });
 
   if (session) {
   } else {
     // Not Signed in
-    res.status(401)
+    res.status(401);
   }
 
   switch (method) {
-    case 'POST':
+    case "POST":
       //Recipe format
 
       /**
@@ -42,7 +42,7 @@ export default async function newRecipe(req, res) {
       }
        
        */
-      const rId = uuidv4()
+      const rId = uuidv4();
       const recipedocument = {
         rid: rId,
         createdBy: session.user.id,
@@ -51,26 +51,29 @@ export default async function newRecipe(req, res) {
         name: req.body.name,
         notes: req.body.notes,
         recipe: JSON.stringify(req.body.recipe),
-      }
+      };
       try {
-        docClient.put({ Item: recipedocument, TableName: "recipe" }, (err, data) => {
-          if (err) {
-            // On Error
-            console.log("dynamo error:", err)
-            res.status(500).json(recipedocument)
-          } else {
-            // On Success
-            console.log("dynamo success:", rId)
-            res.status(200).json({ rid: rId })
+        docClient.put(
+          { Item: recipedocument, TableName: "recipe" },
+          (err, data) => {
+            if (err) {
+              // On Error
+              console.log("dynamo error:", err);
+              res.status(500).json(recipedocument);
+            } else {
+              // On Success
+              console.log("dynamo success:", rId);
+              res.status(200).json({ rid: rId });
+            }
           }
-        })
+        );
       } catch (e) {
         console.error(e);
-        console.error(recipedocument)
+        console.error(recipedocument);
       }
-      break
+      break;
     default:
-      res.setHeader('Allow', ['POST'])
-      res.status(405).end(`Method ${method} Not Allowed`)
+      res.setHeader("Allow", ["POST"]);
+      res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
