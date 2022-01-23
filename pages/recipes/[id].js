@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import useSwr from "swr";
 import { timeAgo } from "../../utils/dateutils";
 import Likes from "../../components/Likes";
+import LoadingSpinner from "../../components/LoadingSpinner";
 
 const fetcher = (url) => fetch(url).then((res) => res.json());
 

@@ -52,17 +52,22 @@ export default async function newRecipe(req, res) {
         notes: req.body.notes,
         recipe: JSON.stringify(req.body.recipe),
       }
-      docClient.put({ Item: recipedocument, TableName: "recipe" }, (err, data) => {
-        if (err) {
-          // On Error
-          console.log("dynamo error:", err)
-          res.status(500).json(recipedocument)
-        } else {
-          // On Success
-          console.log("dynamo success:", rId)
-          res.status(200).json({ rid: rId })
-        }
-      })
+      try {
+        docClient.put({ Item: recipedocument, TableName: "recipe" }, (err, data) => {
+          if (err) {
+            // On Error
+            console.log("dynamo error:", err)
+            res.status(500).json(recipedocument)
+          } else {
+            // On Success
+            console.log("dynamo success:", rId)
+            res.status(200).json({ rid: rId })
+          }
+        })
+      } catch (e) {
+        console.error(e);
+        console.error(recipedocument)
+      }
       break
     default:
       res.setHeader('Allow', ['POST'])
