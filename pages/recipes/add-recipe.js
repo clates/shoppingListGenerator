@@ -12,8 +12,10 @@ import EditableInput from "../../components/buttons/EditableInput";
 import InputStyled from "../../components/input/InputStyled";
 import IconButton from "../../components/buttons/IconButton";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
 export default function AddRecipe() {
+  const router = useRouter();
   const [recipeName, setRecipeName] = useState("Dad's Chicken Noodle Soup");
   const [notes, setNotes] = useState(`
   Pan Fry the garlic and onions until brown
@@ -55,7 +57,7 @@ export default function AddRecipe() {
   ]);
   const { data: session, status } = useSession()
 
-  if(status !== "authenticated") return "Please log in in order to add a new recipe"
+  if (status !== "authenticated") return "Please log in in order to add a new recipe"
 
   return (
     <div className="flex flex-row w-full justify-center">
@@ -216,7 +218,7 @@ export default function AddRecipe() {
                 recipe: recipe,
                 notes: notes
               }),
-            })
+            }).then(resp => router.push(`/recipes/${resp}`))
           }} />
           <IconButton
             className="ml-4"

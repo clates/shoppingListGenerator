@@ -31,20 +31,20 @@ export default NextAuth({
     client
   ),  // Configure one or more authentication providers  
   providers: [
-    EmailProvider({
-      // service: 'Zoho', // no need to set host or port etc.
-      // auth: {
-      //   user: process.env.EMAIL_NOREPLY,
-      //   pass: process.env.EMAIL_PASS
-      // }
+    // EmailProvider({
+    //   // service: 'Zoho', // no need to set host or port etc.
+    //   // auth: {
+    //   //   user: process.env.EMAIL_NOREPLY,
+    //   //   pass: process.env.EMAIL_PASS
+    //   // }
 
-      host: 'smtp.ethereal.email',
-      port: 587,
-      auth: {
-        user: 'douglas.hermann61@ethereal.email',
-        pass: '5vhhfpyn9MVAeK5GBb'
-      }
-    }),
+    //   host: 'smtp.ethereal.email',
+    //   port: 587,
+    //   auth: {
+    //     user: 'douglas.hermann61@ethereal.email',
+    //     pass: '5vhhfpyn9MVAeK5GBb'
+    //   }
+    // }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID,
       clientSecret: process.env.GITHUB_SECRET
