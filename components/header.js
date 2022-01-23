@@ -18,74 +18,31 @@ export default function Header() {
 
   return (
     <header className="w-full">
-      {/* <div className={styles.signedInStatus}>
-        <p
-          className={`nojs-show ${!session && loading ? styles.loading : styles.loaded
-            }`}
-        >
-          {!session && (
-            <>
-              <span className={styles.notSignedInText}>
-                You are not signed in
-              </span>
-              <a
-                href={`/api/auth/signin`}
-                className={styles.buttonPrimary}
-                onClick={(e) => {
-                  e.preventDefault()
-                  signIn()
-                }}
-              >
-                Sign in
-              </a>
-            </>
-          )}
-          {session && (
-            <>
-              {session.user.image && (
-                <span
-                  style={{ backgroundImage: `url('${session.user.image}')` }}
-                  className={styles.avatar}
-                />
-              )}
-              <span className={styles.signedInText}>
-                <small>Signed in as</small>
-                <br />
-                <strong>{session.user.email || session.user.name}</strong>
-              </span>
-              <a
-                href={`/api/auth/signout`}
-                className={styles.button}
-                onClick={(e) => {
-                  e.preventDefault()
-                  signOut()
-                }}
-              >
-                Sign out
-              </a>
-            </>
-          )}
-        </p>
-      </div> */}
       <nav>
         <nav className="mb-8 bg-purple-300">
           <div className="container mx-auto py-4 flex justify-between items-center">
-            <h1 className="text-2xl font-bold text-white">No Plan. #JustShop</h1>
-            <div className="flex space-x-10">
-              <Link href="/recipes/add-recipe">
-                <div className="cursor-pointer group flex items-center space-x-2">
-                  <span>
-                    <FontAwesomeIcon
-                      icon={faMagic}
-                      className="fa-2x transition-all duration-300 group-hover:text-slate-600"
-                      inverse
-                    />
-                  </span>
-                  <span className="text-white transition-all duration-300 group-hover:text-slate-600">
-                    Generate
-                  </span>
+            <h1 className="text-2xl font-bold text-white">
+              <Link href="/">
+                <div className="cursor-pointer group flex items-center space-x-2 hover:text-slate-600">
+                  No Plan. #JustShop
                 </div>
               </Link>
+            </h1>
+            <div className="flex space-x-10">
+              {/* <Link href="/recipes/add-recipe"> */}
+              <div className="cursor-not-allowed group flex items-center space-x-2">
+                <span>
+                  <FontAwesomeIcon
+                    icon={faMagic}
+                    className="fa-2x transition-all duration-300 group-hover:text-slate-600"
+                    inverse
+                  />
+                </span>
+                <span className="text-white transition-all duration-300 group-hover:text-slate-600">
+                  Generate
+                </span>
+              </div>
+              {/* </Link> */}
               <Link href="/recipes/add-recipe">
                 <div className="cursor-pointer group flex items-center space-x-2">
                   <span>
@@ -100,7 +57,7 @@ export default function Header() {
                   </span>
                 </div>
               </Link>
-              <Link href="/recipes/add-recipe">
+              <Link href="/recipes/">
                 <div className="cursor-pointer group flex items-center space-x-2">
                   <span>
                     <FontAwesomeIcon
@@ -110,13 +67,17 @@ export default function Header() {
                     />
                   </span>
                   <span className="text-white transition-all duration-300 group-hover:text-slate-600">
-                    Browse Recipies
+                    Master Cookbook
                   </span>
                 </div>
               </Link>
             </div>
             {session ?
-              <span style={{ backgroundImage: `url(${session.user.image})` }} className={styles.avatar} />
+              <div className="cursor-pointer">
+                <Link href="/profile" >
+                  <span style={{ backgroundImage: `url(${session.user.image})` }} className={styles.avatar} />
+                </Link>
+              </div>
               :
               <div
                 className="group lg:flex hidden items-center space-x-2 py-1 px-2 rounded-full hover:text-slate-600"

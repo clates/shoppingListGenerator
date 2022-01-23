@@ -1,13 +1,10 @@
 import Layout from "../components/layout";
+import NotImpl from "../components/NotImplemented";
 
 export default function Page() {
   return (
-    <>
-      <h1>NextAuth.js Example</h1>
-      <p>
-        This is an example site to demonstrate how to use{" "}
-        <a href={`https://next-auth.js.org`}>NextAuth.js</a> for authentication.
-      </p>
-    </>
+    <NotImpl msg="Homepage explaining the concept of the site. If I asked you for help it's probably to add a recipe or two to seed some initial data into the site. Click the Add New Recipe button in the header above. ">
+
+    </NotImpl>
   );
 }

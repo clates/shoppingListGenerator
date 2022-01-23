@@ -69,7 +69,7 @@ export default async function newRecipe(req, res) {
           console.log("dynamo success:", rId)
         }
       })
-      res.status(200).end(rId)
+      res.status(200).end({ rid: rId })
       break
     default:
       res.setHeader('Allow', ['POST'])
