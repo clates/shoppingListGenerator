@@ -33,7 +33,7 @@ export default ({ recipe, likes, initialLike }) => {
     }
   }
   return (
-    <div role="button" onClick={onClick} className="group flex flex-col items-center w-16 border-2 border-rose-300 rounded-lg mb-2 hover:border-rose-500 cursor-pointer">
+    <div role="button" onClick={onClick} className="group flex flex-col items-center w-16 border-2 border-rose-300 rounded-lg hover:border-rose-500 cursor-pointer">
       <FontAwesomeIcon
         icon={like ? solidStar : faStar}
         className="fa-lg text-rose-400 mt-1 group-hover:text-rose-500" />
