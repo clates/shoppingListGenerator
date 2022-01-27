@@ -20,11 +20,11 @@ export default function Header() {
     <header className="w-full">
       <nav>
         <nav className="mb-8 bg-purple-300">
-          <div className="container px-3 mx-4 sm:mx-auto py-4 flex justify-between items-center">
+          <div className="container px-6 sm:px-3 mx-auto py-4 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-white">
               <Link href="/">
                 <div className="cursor-pointer group flex items-center space-x-2 hover:text-slate-600">
-                  No Plan. #JustShop
+                  No Plan. <br className="block sm:hidden" /> #JustShop
                 </div>
               </Link>
             </h1>
