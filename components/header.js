@@ -20,7 +20,7 @@ export default function Header() {
     <header className="w-full">
       <nav>
         <nav className="mb-8 bg-purple-300">
-          <div className="container mx-auto py-4 flex justify-between items-center">
+          <div className="container px-3 mx-4 sm:mx-auto py-4 flex justify-between items-center">
             <h1 className="text-2xl font-bold text-white">
               <Link href="/">
                 <div className="cursor-pointer group flex items-center space-x-2 hover:text-slate-600">
@@ -38,7 +38,7 @@ export default function Header() {
                     inverse
                   />
                 </span>
-                <span className="text-white transition-all duration-300 group-hover:text-slate-600">
+                <span className="hidden lg:block text-white transition-all duration-300 group-hover:text-slate-600">
                   Generate
                 </span>
               </div>
@@ -52,7 +52,7 @@ export default function Header() {
                       inverse
                     />
                   </span>
-                  <span className="text-white transition-all duration-300 group-hover:text-slate-600">
+                  <span className="hidden lg:block text-white transition-all duration-300 group-hover:text-slate-600">
                     Add New Recipie
                   </span>
                 </div>
@@ -66,7 +66,7 @@ export default function Header() {
                       inverse
                     />
                   </span>
-                  <span className="text-white transition-all duration-300 group-hover:text-slate-600">
+                  <span className="hidden lg:block text-white transition-all duration-300 group-hover:text-slate-600">
                     Master Cookbook
                   </span>
                 </div>
